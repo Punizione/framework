@@ -170,6 +170,15 @@ public class ImageProcessUtil {
         return img;
     }
 
+    public static BufferedImage ImageOnePixel(String path) {
+        BufferedImage img = getImage(path);
+        Graphics2D graphics2d = img.createGraphics();
+        graphics2d.drawLine(0, 0, 1, 0);
+
+        graphics2d.dispose();
+        return img;
+    }
+
 
     // 亮、暗色阶映射表
     private static int[] mLightColorTable, mDarkColorTable;

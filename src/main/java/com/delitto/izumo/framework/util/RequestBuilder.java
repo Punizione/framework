@@ -104,6 +104,23 @@ public class RequestBuilder {
         }
         return null;
     }
+
+    public static Response<ResponseBody> get(String url, String proxyIp, int proxyPort) {
+        if(StringUtils.isNotBlank(url)) {
+            Retrofit simpleRetrofit = RequestBuilder.getProxyRetrofit("https://sample.com", proxyIp, proxyPort);
+            IApi api = simpleRetrofit.create(IApi.class);
+            Call<ResponseBody> call = api.getFullUrl(url);
+            try {
+                Response<ResponseBody> response = call.execute();
+                if(response.isSuccessful()) {
+                    return response;
+                }
+            } catch (IOException ioe) {
+                return null;
+            }
+        }
+        return null;
+    }
 }
 
 interface IApi {

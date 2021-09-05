@@ -19,6 +19,8 @@ public class ForwardMsgBuilder {
         return botSays(new MsgBuilder().text(message).build());
     }
 
+    public ForwardMsgBuilder botSaysImage(String path) { return botSays(new MsgBuilder().image(builder.getContext(), path).build()); }
+
     public ForwardMsgBuilder botSays(Message message){
         builder.says(bot, message);
         return this;

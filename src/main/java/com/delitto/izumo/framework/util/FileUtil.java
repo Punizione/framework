@@ -113,11 +113,6 @@ public class FileUtil {
 
     public static JSONObject loadJson(String fileName, String filePath) {
         try {
-            File pathRoot = new File(ResourceUtils.getURL("classpath:").getPath());
-            if(!pathRoot.exists()) {
-                pathRoot = new File("");
-            }
-
             File f = new File(filePath);
             if(!f.exists()) {
                 f.mkdirs();
@@ -134,15 +129,11 @@ public class FileUtil {
 
     public static void writeJson(JSONObject jsonObject, String fileName, String filePath) {
         try{
-            File pathRoot = new File(ResourceUtils.getURL("classpath:").getPath());
-            if(!pathRoot.exists()) {
-                pathRoot = new File("");
-            }
             File f = new File(filePath);
             if(!f.exists()) {
                 f.mkdirs();
             }
-            OutputStream outputStream = new FileOutputStream(new File(filePath + fileName + ".json"));
+            OutputStream outputStream = new FileOutputStream(new File(filePath + File.separator + fileName ));
             IOUtils.write(jsonObject.toJSONString(), outputStream, StandardCharsets.UTF_8);
         } catch (Exception e) {
             log.error("获取类配置文件失败:", e);
@@ -165,11 +156,6 @@ public class FileUtil {
             randomName = UUID.randomUUID().toString().replaceAll("-", "") + checkFileExtension(response);
         }
         try {
-            /*
-            File pathRoot = new File(ResourceUtils.getURL("classpath:").getPath());
-            if(!pathRoot.exists()) {
-                pathRoot = new File("");
-            }*/
             File f = new File(saveDirPath);
             if(!f.exists()) {
                 f.mkdirs();
@@ -248,6 +234,22 @@ public class FileUtil {
             beans.add(bean);
         }
         return beans;
+    }
+
+    public static boolean checkFileDirectoryExists(String path, boolean needCreate) {
+        File file = new File(path);
+        if(!file.exists()) {
+            if(needCreate) {
+                return file.mkdirs();
+            }
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean checkFileExists(String path2File) {
+        return new File(path2File).exists();
     }
 
 }
