@@ -6,6 +6,7 @@ import net.mamoe.mirai.message.data.*;
 import net.mamoe.mirai.utils.ExternalResource;
 
 import java.io.File;
+import java.io.IOException;
 
 public class MsgBuilder {
     private final MessageChainBuilder builder = new MessageChainBuilder();
@@ -30,11 +31,17 @@ public class MsgBuilder {
     }
 
     public MsgBuilder image(Contact contact, String path2File) {
-        Image image = contact.uploadImage(ExternalResource.create(new File(path2File)));
+        ExternalResource resource = ExternalResource.create(new File(path2File));
+        Image image = contact.uploadImage(resource);
         builder.append(image);
+        try{
+            resource.close();
+        } catch (IOException ioe) {
+
+        }
+
         return this;
     }
-
 
     public MessageChain voice(Contact contact, String path2File) {
         Voice voice = ExternalResource.uploadAsVoice(ExternalResource.create(new File(path2File)), contact);
